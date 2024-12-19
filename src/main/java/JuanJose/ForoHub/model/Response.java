@@ -18,12 +18,20 @@ public class Response {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String message;
+
+    @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate = LocalDateTime.now();
+
+    @Column(name="is_solution", nullable = false)
     private boolean isSolution = false;
+
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="topic_id")
     private  Topic topic;
+
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="author_id")
     private  User author;

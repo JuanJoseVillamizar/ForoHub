@@ -16,9 +16,14 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 500)
     private String name;
+
+    @Column
     private String description;
+
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="subcategory_id")
+    @JoinColumn(name="subcategory_id",nullable = false)
     private SubCategory subCategory;
 }

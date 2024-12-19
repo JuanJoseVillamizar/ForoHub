@@ -18,16 +18,27 @@ public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true ,length = 500)
     private String title;
+
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TopicType type;
+
+    @Column(nullable = false, unique = true)
     private String message;
+
+    @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate = LocalDateTime.now();
+
     @Enumerated(EnumType.STRING)
     private TopicStatus status = TopicStatus.UNANSWERED;
+
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="author_id")
     private User author;
+
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="course_id")
     private Course course;

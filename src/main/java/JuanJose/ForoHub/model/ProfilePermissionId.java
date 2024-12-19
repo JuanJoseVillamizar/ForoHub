@@ -10,5 +10,4 @@ public class ProfilePermissionId implements Serializable {
     private Long profile;
     private Long permission;
 
-
 }
