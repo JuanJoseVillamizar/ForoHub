@@ -1,7 +1,8 @@
 package JuanJose.ForoHub.model;
 
 
-import JuanJose.ForoHub.dto.Category.DataRegisterCategory;
+import JuanJose.ForoHub.dto.Category.CreateCategoryDTO;
+import JuanJose.ForoHub.dto.Category.UpdateCategoryDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -27,7 +28,13 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<SubCategory> subCategories;
 
-    public Category(DataRegisterCategory data) {
-    this.name = data.name();
+    public Category(CreateCategoryDTO data) {
+        this.name = data.name();
+    }
+
+    public void updateCategory (UpdateCategoryDTO data){
+        if(data.name() != null){
+            this.name= data.name();
+        }
     }
 }

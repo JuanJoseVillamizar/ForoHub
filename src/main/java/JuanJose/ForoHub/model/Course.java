@@ -1,5 +1,7 @@
 package JuanJose.ForoHub.model;
 
+import JuanJose.ForoHub.dto.Course.CreateCourseDTO;
+import JuanJose.ForoHub.dto.Course.UpdateCourseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -26,4 +28,13 @@ public class Course {
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="subcategory_id",nullable = false)
     private SubCategory subCategory;
+
+    public void updateCourse (UpdateCourseDTO data){
+        if(data.name() != null){
+            this.name = data.name();
+        }
+        if(data.description() != null){
+            this.description = data.description();
+        }
+    }
 }
