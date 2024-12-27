@@ -1,7 +1,7 @@
 package JuanJose.ForoHub.exception;
 
-public class ValidationNotFound extends RuntimeException {
-    public ValidationNotFound(String message) {
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
         super(message);
     }
 }
