@@ -1,8 +1,8 @@
 package JuanJose.ForoHub.model;
 
 public enum TopicStatus {
-    UNANSWERED("No respondido", "UnansWered"),
-    ANSWERED("Respondido", "Anwered"),
+    UNANSWERED("No respondido", "Unanswered"),
+    ANSWERED("Respondido", "Answered"),
     RESOLVED("Resuelto", "Resolve");
 
     private final String spanish;

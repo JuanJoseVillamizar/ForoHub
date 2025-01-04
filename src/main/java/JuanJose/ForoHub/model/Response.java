@@ -1,5 +1,6 @@
 package JuanJose.ForoHub.model;
 
+import JuanJose.ForoHub.dto.Response.UpdateResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,11 @@ public class Response {
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="author_id")
-    private  User author;
+    private ForumUser author;
 
+    public void updateResponse (UpdateResponse data){
+        if(data.message() != null){
+            this.message = data.message();
+        }
+    }
 }

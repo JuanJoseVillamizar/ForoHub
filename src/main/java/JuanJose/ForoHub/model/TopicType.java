@@ -1,10 +1,13 @@
 package JuanJose.ForoHub.model;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public enum TopicType {
-    DUDA("Duda", "Question"),
-    SUGERENCIA("Sugerencia", "Suggestion"),
-    PROYECTO("Proyecto", "Project"),
+    QUESTION("Duda", "Question"),
+    SUGGESTION("Sugerencia", "Suggestion"),
+    PROJECT("Proyecto", "Project"),
     BUG("Bug", "Error"),
-    QUEJA("Queja", "Complaint");
+    COMPLAINT("Queja", "Complaint");
 
     private final String spanish;
     private final String english;

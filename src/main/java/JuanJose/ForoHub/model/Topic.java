@@ -1,12 +1,15 @@
 package JuanJose.ForoHub.model;
 
+import JuanJose.ForoHub.dto.Topic.UpdateTopicDTO;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="topic")
@@ -37,13 +40,31 @@ public class Topic {
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="author_id")
-    private User author;
+    private ForumUser author;
 
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="course_id")
     private Course course;
 
+    @OneToMany(mappedBy = "topic", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Response> responses;
+
     public void setType(String typeValue) {
         this.type = TopicType.fromString(typeValue);
+    }
+
+    public void updateTopic(@Valid UpdateTopicDTO data) {
+        if(data.title() != null){
+            this.title= data.title();
+        }
+        if(data.message() != null){
+            this.message = data.message();
+        }
+    }
+    public void answeredStatus(){
+        this.status=TopicStatus.ANSWERED;
+    }
+    public void unansweredStatus (){
+        this.status=TopicStatus.UNANSWERED;
     }
 }
