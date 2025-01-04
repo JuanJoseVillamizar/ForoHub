@@ -1,14 +1,18 @@
 package JuanJose.ForoHub.controller;
 
-import JuanJose.ForoHub.Service.SubCategory.SubCategoryService;
 import JuanJose.ForoHub.dto.Course.ResponseCourseDTO;
 import JuanJose.ForoHub.dto.SubCategory.*;
+import JuanJose.ForoHub.dto.Topic.TopicDetailsDTO;
+import JuanJose.ForoHub.model.TopicStatus;
+import JuanJose.ForoHub.model.TopicType;
+import JuanJose.ForoHub.service.SubCategory.SubCategoryService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/subcategories")
 public class SubCategoryController {
 
     private final SubCategoryService subCategoryService;
@@ -27,7 +31,7 @@ public class SubCategoryController {
     }
 
     //Create SubCategory
-    @PostMapping("/subcategories")
+    @PostMapping
     @Transactional
     public ResponseEntity<DetailsResponseSubCategoryDTO> createSubCategory(@RequestBody @Valid CreateSubCategoryDTO data,
                                                                            UriComponentsBuilder uriComponentsBuilder) {
@@ -37,7 +41,7 @@ public class SubCategoryController {
     }
 
     //Update SubCategory
-    @PutMapping("/subcategories/{id}")
+    @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<ResponseSubCategoryDTO> updateSubcategory (@PathVariable Long id,
                                                                    @Valid @RequestBody UpdateSubcategoryDTO data){
@@ -46,14 +50,14 @@ public class SubCategoryController {
     }
 
     //Delete SubCategory
-    @DeleteMapping("/subcategories/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<DeleteSubCategoryDTO> deleteSubCategory (@PathVariable Long id){
         DeleteSubCategoryDTO response = subCategoryService.deleteSubcategory(id);
         return ResponseEntity.ok().body(response);
     }
 
     //Get Subcategory by id
-    @GetMapping("/sub_categories/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<DetailsResponseSubCategoryDTO> getSubCategoryById (@PathVariable Long id){
         DetailsResponseSubCategoryDTO subCategoryDTO = subCategoryService.getById(id);
         return ResponseEntity.ok().body(subCategoryDTO);
@@ -61,23 +65,41 @@ public class SubCategoryController {
 
 
     //Get all subcategories
-    @GetMapping("/subcategories-list")
-    public ResponseEntity<PagedModel<ResponseSubCategoryDTO>> listSubcategories(@PageableDefault(size = 10,
-            sort = "categoryId") Pageable pageable, PagedResourcesAssembler assembler) {
+    @GetMapping
+    public ResponseEntity<PagedModel<EntityModel<ResponseSubCategoryDTO>>> listSubcategories(
+            @PageableDefault(sort = "categoryId")
+            Pageable pageable,
+            PagedResourcesAssembler<ResponseSubCategoryDTO> assembler) {
         Page<ResponseSubCategoryDTO> subCategoryResponseDTOPage = subCategoryService.getAllSubcategories(pageable);
-        PagedModel<ResponseSubCategoryDTO> pagedModel = assembler.toModel(subCategoryResponseDTOPage);
+        PagedModel<EntityModel<ResponseSubCategoryDTO>> pagedModel = assembler.toModel(subCategoryResponseDTOPage);
         return ResponseEntity.ok(pagedModel);
     }
 
     //GET /api/subcategories/{subcategoryId}/courses
-    @GetMapping("/subcategories/{idSubCategory}/courses")
-    public ResponseEntity<PagedModel<ResponseCourseDTO>> getCourses(
+    @GetMapping("/{idSubCategory}/courses")
+    public ResponseEntity<PagedModel<EntityModel<ResponseCourseDTO>>> getCourses(
             @PathVariable Long idSubCategory,
-            @PageableDefault(size = 10, sort = "subCategory.id")
-            Pageable pageable, PagedResourcesAssembler assembler) {
+            @PageableDefault(sort = "subCategory.id")
+            Pageable pageable,
+            PagedResourcesAssembler<ResponseCourseDTO> assembler) {
     Page<ResponseCourseDTO> courseResponseDTOPage = subCategoryService.getCourses(idSubCategory,pageable);
-    PagedModel<ResponseCourseDTO> pagedModel = assembler.toModel(courseResponseDTOPage);
+    PagedModel<EntityModel<ResponseCourseDTO>> pagedModel = assembler.toModel(courseResponseDTOPage);
     return ResponseEntity.ok(pagedModel);
+    }
+
+    // Get topics by subcategory
+    @GetMapping("/{id}/topics")
+    public ResponseEntity<PagedModel<EntityModel<TopicDetailsDTO>>> getTopicsBySubcategoryId(
+            @PageableDefault(sort = "creationDate")
+            Pageable pageable,
+            PagedResourcesAssembler<TopicDetailsDTO> assembler,
+            @PathVariable Long id,
+            @RequestParam(value = "type", required = false) TopicType type,
+            @RequestParam(value = "status", required = false) TopicStatus status) {
+        Page<TopicDetailsDTO> topicDetailsDTOS = subCategoryService.getTopicsBySubcategoryId(
+                id, type, status, pageable);
+        PagedModel<EntityModel<TopicDetailsDTO>> pagedModel = assembler.toModel(topicDetailsDTOS);
+        return ResponseEntity.ok(pagedModel);
     }
 
 

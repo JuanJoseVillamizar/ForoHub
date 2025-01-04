@@ -1,13 +1,17 @@
 package JuanJose.ForoHub.controller;
 
-import JuanJose.ForoHub.Service.Course.CourseService;
 import JuanJose.ForoHub.dto.Course.*;
+import JuanJose.ForoHub.dto.Topic.TopicDetailsDTO;
+import JuanJose.ForoHub.model.TopicStatus;
+import JuanJose.ForoHub.model.TopicType;
+import JuanJose.ForoHub.service.Course.CourseService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/courses")
 public class CourseController {
 
     private final CourseService courseService;
@@ -26,9 +30,9 @@ public class CourseController {
     }
 
     // Create Course
-    @PostMapping("/course")
+    @PostMapping
     @Transactional
-    public ResponseEntity<DetailsResponseCourseDTO> registerCourse(@RequestBody @Valid CreateCourseDTO data,
+    public ResponseEntity<DetailsResponseCourseDTO> createCourse(@RequestBody @Valid CreateCourseDTO data,
                                                                    UriComponentsBuilder uriComponentsBuilder) {
         DetailsResponseCourseDTO detailsResponseCourseDTO = courseService.createCourse(data);
         URI url = uriComponentsBuilder.path("/courses/{id}").buildAndExpand(detailsResponseCourseDTO.id()).toUri();
@@ -36,7 +40,7 @@ public class CourseController {
     }
 
     //Update course
-    @PutMapping("/course/{id}")
+    @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<ResponseCourseDTO> updateCourse(
             @PathVariable Long id,
@@ -46,25 +50,38 @@ public class CourseController {
     }
 
     //Delete course
-    @DeleteMapping("/course/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<DeleteCourseDTO> deleteCourse(@PathVariable Long id) {
         return ResponseEntity.ok().body(courseService.deleteCourse(id));
     }
 
     //Get course by id
-    @GetMapping("/course/{id}")
-    public ResponseEntity<DetailsResponseCourseDTO> getCourseByDd(@PathVariable Long id) {
-        DetailsResponseCourseDTO response = courseService.getById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<DetailsResponseCourseDTO> getCourseById(@PathVariable Long id) {
+        DetailsResponseCourseDTO response = courseService.getCourseById(id);
         return ResponseEntity.ok().body(response);
     }
 
     // Get all courses
-    @GetMapping("/courses-list")
-    public ResponseEntity<PagedModel<ResponseCourseDTO>> getAllCourses(
-            @PageableDefault(size = 10, sort = "subCategory.id")
-            Pageable pageable, PagedResourcesAssembler assembler) {
+    @GetMapping
+    public ResponseEntity<PagedModel<EntityModel<ResponseCourseDTO>>> getAllCourses(
+            @PageableDefault(sort = "subCategory.id")
+            Pageable pageable, PagedResourcesAssembler<ResponseCourseDTO> assembler) {
         Page<ResponseCourseDTO> responseCourseDTOPage = courseService.getAllCourse(pageable);
-        PagedModel pagedModel = assembler.toModel(responseCourseDTOPage);
+        PagedModel<EntityModel<ResponseCourseDTO>> pagedModel = assembler.toModel(responseCourseDTOPage);
+        return ResponseEntity.ok(pagedModel);
+    }
+
+    // Get topics by course id
+    @GetMapping("/{id}/topics")
+    public ResponseEntity<PagedModel<EntityModel<TopicDetailsDTO>>> getTopicsByCourseId(
+            @Valid @PathVariable Long id,
+            @RequestParam(value = "status", required = false) TopicStatus status,
+            @RequestParam(value = "type", required = false) TopicType type,
+            @PageableDefault(sort = "creationDate")
+            Pageable pageable, PagedResourcesAssembler<TopicDetailsDTO> assembler) {
+        Page<TopicDetailsDTO> coursePage = courseService.getTopicsByCourseId(id,status,type,pageable);
+        PagedModel<EntityModel<TopicDetailsDTO>> pagedModel = assembler.toModel(coursePage);
         return ResponseEntity.ok(pagedModel);
     }
 
