@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name="course")
 @Getter
@@ -28,6 +30,9 @@ public class Course {
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="subcategory_id",nullable = false)
     private SubCategory subCategory;
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Topic> topics;
 
     public void updateCourse (UpdateCourseDTO data){
         if(data.name() != null){

@@ -25,7 +25,7 @@ public class Category {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SubCategory> subCategories;
 
     public Category(CreateCategoryDTO data) {

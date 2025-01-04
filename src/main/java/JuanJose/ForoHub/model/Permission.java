@@ -1,5 +1,6 @@
 package JuanJose.ForoHub.model;
 
+import JuanJose.ForoHub.dto.Permission.CreatePermissionDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -22,4 +23,13 @@ public class Permission {
 
     @Column
     private String description;
+
+    public void updatePermission(CreatePermissionDTO data){
+        if(data.name() != null){
+            this.name=data.name();
+        }
+        if (data.description() != null){
+            this.description = data.description();
+        }
+    }
 }
