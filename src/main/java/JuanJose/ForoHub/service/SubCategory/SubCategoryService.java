@@ -1,16 +1,18 @@
-package JuanJose.ForoHub.Service.SubCategory;
+package JuanJose.ForoHub.service.SubCategory;
 
-import JuanJose.ForoHub.Service.Category.CategoryValidator;
-import JuanJose.ForoHub.Service.Course.CourseService;
 import JuanJose.ForoHub.dto.Course.ResponseCourseDTO;
 import JuanJose.ForoHub.dto.SubCategory.*;
+import JuanJose.ForoHub.dto.Topic.TopicDetailsDTO;
 import JuanJose.ForoHub.exception.ResourceNotFoundException;
 import JuanJose.ForoHub.model.Category;
-import JuanJose.ForoHub.model.Course;
 import JuanJose.ForoHub.model.SubCategory;
+import JuanJose.ForoHub.model.TopicStatus;
+import JuanJose.ForoHub.model.TopicType;
 import JuanJose.ForoHub.repository.CategoryRepository;
-import JuanJose.ForoHub.repository.CourseRepository;
 import JuanJose.ForoHub.repository.SubCategoryRepository;
+import JuanJose.ForoHub.service.Category.CategoryValidator;
+import JuanJose.ForoHub.service.Course.CourseService;
+import JuanJose.ForoHub.service.Topic.TopicService;
 import JuanJose.ForoHub.utils.ConverterData;
 import JuanJose.ForoHub.utils.StringUtils;
 import org.springframework.data.domain.Page;
@@ -27,18 +29,21 @@ public class SubCategoryService {
     private final CourseService courseService;
     private final SubCategoryValidator subCategoryValidator;
     private final CategoryValidator categoryValidator;
+    private final TopicService topicService;
 
     public SubCategoryService(SubCategoryRepository subCategoryRepository,
                               CategoryRepository categoryRepository,
                               CourseService courseService,
                               SubCategoryValidator subCategoryValidator,
-                              CategoryValidator categoryValidator
+                              CategoryValidator categoryValidator,
+                              TopicService topicService
     ) {
         this.subCategoryRepository = subCategoryRepository;
         this.categoryRepository = categoryRepository;
         this.courseService = courseService;
         this.subCategoryValidator = subCategoryValidator;
         this.categoryValidator = categoryValidator;
+        this.topicService = topicService;
     }
 
     // Create subCategory
@@ -99,7 +104,15 @@ public class SubCategoryService {
     //Get courses by subCategory id
     public Page<ResponseCourseDTO> getCourses(Long idSubCategory, Pageable pageable) {
         subCategoryValidator.validateExistsById(idSubCategory);
-        return courseService.getCoursesBySubcategoryId(idSubCategory,pageable);
+        return courseService.getCoursesBySubCategoryId(idSubCategory, pageable);
+    }
+
+    //get topics by subCategoryId
+    public Page<TopicDetailsDTO> getTopicsBySubcategoryId(
+            Long SubcategoryId, TopicType type, TopicStatus status, Pageable pageable) {
+        System.out.println("Validation : " + SubcategoryId);
+        subCategoryValidator.validateExistsById(SubcategoryId);
+        return topicService.findTopicsBySubcategoryId(SubcategoryId, status, type, pageable);
     }
 
     //Converter to ResponseSubCategoryDTO
@@ -110,5 +123,4 @@ public class SubCategoryService {
                 subCategory.getCategory().getId()
         );
     }
-
 }

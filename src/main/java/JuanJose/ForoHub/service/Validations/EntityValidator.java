@@ -1,4 +1,4 @@
-package JuanJose.ForoHub.Service.Validations;
+package JuanJose.ForoHub.service.Validations;
 
 public interface EntityValidator<T> {
 

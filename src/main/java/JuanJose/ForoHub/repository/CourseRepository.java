@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface CourseRepository extends JpaRepository<Course,Long> {
     boolean existsByName(String name);
-    Page<Course> findAll(Pageable pageable);
+    Page<Course> findAll( Pageable pageable);
     @Query(value = """
             SELECT c from Course c WHERE c.subCategory.id = :id
             """)

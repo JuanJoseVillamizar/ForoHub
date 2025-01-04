@@ -1,6 +1,6 @@
-package JuanJose.ForoHub.Service.Course;
+package JuanJose.ForoHub.service.Course;
 
-import JuanJose.ForoHub.Service.Validations.AbstractEntityValidator;
+import JuanJose.ForoHub.service.Validations.AbstractEntityValidator;
 import JuanJose.ForoHub.exception.ResourceAlreadyExistException;
 import JuanJose.ForoHub.model.Course;
 import JuanJose.ForoHub.repository.CourseRepository;

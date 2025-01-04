@@ -1,8 +1,6 @@
-package JuanJose.ForoHub.Service.Validations;
+package JuanJose.ForoHub.service.Validations;
 
-import JuanJose.ForoHub.exception.ResourceAlreadyExistException;
 import JuanJose.ForoHub.exception.ResourceNotFoundException;
-import JuanJose.ForoHub.utils.StringUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public abstract class AbstractEntityValidator<T> implements EntityValidator<T> {

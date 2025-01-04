@@ -1,6 +1,6 @@
-package JuanJose.ForoHub.Service.SubCategory;
+package JuanJose.ForoHub.service.SubCategory;
 
-import JuanJose.ForoHub.Service.Validations.AbstractEntityValidator;
+import JuanJose.ForoHub.service.Validations.AbstractEntityValidator;
 import JuanJose.ForoHub.exception.ResourceAlreadyExistException;
 import JuanJose.ForoHub.model.SubCategory;
 import JuanJose.ForoHub.repository.SubCategoryRepository;
