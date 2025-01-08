@@ -1,6 +1,6 @@
 package JuanJose.ForoHub.service.Response;
 
-import JuanJose.ForoHub.model.Response;
+import JuanJose.ForoHub.entities.Response;
 import JuanJose.ForoHub.repository.ResponseRepository;
 import JuanJose.ForoHub.service.Validations.AbstractEntityValidator;
 import org.springframework.stereotype.Component;

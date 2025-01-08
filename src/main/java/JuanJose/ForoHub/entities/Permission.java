@@ -1,15 +1,13 @@
-package JuanJose.ForoHub.model;
+package JuanJose.ForoHub.entities;
 
 import JuanJose.ForoHub.dto.Permission.CreatePermissionDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name="permission")
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")

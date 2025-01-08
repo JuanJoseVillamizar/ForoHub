@@ -1,4 +1,4 @@
-package JuanJose.ForoHub.model;
+package JuanJose.ForoHub.entities;
 
 import lombok.EqualsAndHashCode;
 

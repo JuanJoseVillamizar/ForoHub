@@ -1,7 +1,7 @@
 package JuanJose.ForoHub.dto.Topic;
 
-import JuanJose.ForoHub.model.TopicStatus;
-import JuanJose.ForoHub.model.TopicType;
+import JuanJose.ForoHub.entities.TopicStatus;
+import JuanJose.ForoHub.entities.TopicType;
 import JuanJose.ForoHub.utils.TopicTypeDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.validation.constraints.NotBlank;
@@ -19,6 +19,6 @@ public record CreateTopicDTO(
         TopicStatus status,
         @NotNull
         Long idUser,
-        Long idCourse
+        String idCourse
 ) {
 }

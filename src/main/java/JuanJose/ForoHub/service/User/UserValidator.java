@@ -1,7 +1,7 @@
 package JuanJose.ForoHub.service.User;
 
 import JuanJose.ForoHub.exception.ResourceAlreadyExistException;
-import JuanJose.ForoHub.model.ForumUser;
+import JuanJose.ForoHub.entities.ForumUser;
 import JuanJose.ForoHub.repository.UserRepository;
 import JuanJose.ForoHub.service.Validations.AbstractEntityValidator;
 import org.springframework.stereotype.Component;

@@ -2,7 +2,7 @@ package JuanJose.ForoHub.service.Category;
 
 import JuanJose.ForoHub.service.Validations.AbstractEntityValidator;
 import JuanJose.ForoHub.exception.ResourceAlreadyExistException;
-import JuanJose.ForoHub.model.Category;
+import JuanJose.ForoHub.entities.Category;
 import JuanJose.ForoHub.repository.CategoryRepository;
 import org.springframework.stereotype.Component;
 

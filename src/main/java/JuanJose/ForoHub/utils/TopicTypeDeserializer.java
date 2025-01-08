@@ -1,6 +1,6 @@
 package JuanJose.ForoHub.utils;
 
-import JuanJose.ForoHub.model.TopicType;
+import JuanJose.ForoHub.entities.TopicType;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;

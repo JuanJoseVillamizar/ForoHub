@@ -1,11 +1,8 @@
-package JuanJose.ForoHub.model;
+package JuanJose.ForoHub.entities;
 
 import JuanJose.ForoHub.dto.Profile.CreateProfileDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name="profile")
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -27,7 +25,7 @@ public class Profile {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "profile", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
     private Set<ProfilePermission> profilePermissions = new HashSet<>();
 
     public Set<Permission> getPermissions() {

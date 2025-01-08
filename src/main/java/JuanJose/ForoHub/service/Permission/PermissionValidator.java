@@ -1,10 +1,9 @@
 package JuanJose.ForoHub.service.Permission;
 
 import JuanJose.ForoHub.exception.ResourceAlreadyExistException;
-import JuanJose.ForoHub.model.Permission;
+import JuanJose.ForoHub.entities.Permission;
 import JuanJose.ForoHub.repository.PermissionRepository;
 import JuanJose.ForoHub.service.Validations.AbstractEntityValidator;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 @Component

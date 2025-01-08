@@ -1,16 +1,13 @@
-package JuanJose.ForoHub.model;
+package JuanJose.ForoHub.entities;
 
-import JuanJose.ForoHub.dto.User.CreateUserDTO;
 import JuanJose.ForoHub.dto.User.UpdateUserDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name="forum_user")
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of="id")
@@ -29,7 +26,7 @@ public class ForumUser {
     @Column(nullable = false, length = 200)
     private String password;
 
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name = "profile_id")
     private Profile profile;
 

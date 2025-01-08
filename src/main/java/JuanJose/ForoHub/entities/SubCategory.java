@@ -1,18 +1,16 @@
-package JuanJose.ForoHub.model;
+package JuanJose.ForoHub.entities;
 
 import JuanJose.ForoHub.dto.SubCategory.CreateSubCategoryDTO;
 import JuanJose.ForoHub.dto.SubCategory.UpdateSubcategoryDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "sub_category")
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")

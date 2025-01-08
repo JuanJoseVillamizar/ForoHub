@@ -1,6 +1,6 @@
 package JuanJose.ForoHub.dto.Course;
 
-import JuanJose.ForoHub.model.Course;
+import JuanJose.ForoHub.entities.Course;
 
 public record DetailsResponseCourseDTO(
         Long id,

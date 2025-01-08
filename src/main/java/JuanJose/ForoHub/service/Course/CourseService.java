@@ -2,7 +2,7 @@ package JuanJose.ForoHub.service.Course;
 
 import JuanJose.ForoHub.dto.Course.*;
 import JuanJose.ForoHub.dto.Topic.TopicDetailsDTO;
-import JuanJose.ForoHub.model.*;
+import JuanJose.ForoHub.entities.*;
 import JuanJose.ForoHub.repository.CourseRepository;
 import JuanJose.ForoHub.repository.SubCategoryRepository;
 import JuanJose.ForoHub.service.SubCategory.SubCategoryValidator;

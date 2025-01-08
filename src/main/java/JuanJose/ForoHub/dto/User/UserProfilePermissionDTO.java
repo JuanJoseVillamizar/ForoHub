@@ -2,11 +2,8 @@ package JuanJose.ForoHub.dto.User;
 
 import JuanJose.ForoHub.dto.Permission.ResponsePermissionDTO;
 import JuanJose.ForoHub.dto.Profile.ProfileDTO;
-import JuanJose.ForoHub.dto.Profile.ResponseProfileDTO;
-import JuanJose.ForoHub.model.ForumUser;
-import org.springframework.data.domain.Page;
+import JuanJose.ForoHub.entities.ForumUser;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public record UserProfilePermissionDTO(

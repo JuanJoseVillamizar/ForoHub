@@ -1,12 +1,9 @@
-package JuanJose.ForoHub.model;
+package JuanJose.ForoHub.entities;
 
 import JuanJose.ForoHub.dto.Topic.UpdateTopicDTO;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder
 @EqualsAndHashCode(of = "id")
 public class Topic {
     @Id

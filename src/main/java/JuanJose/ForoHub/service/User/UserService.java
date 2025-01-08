@@ -2,8 +2,9 @@ package JuanJose.ForoHub.service.User;
 
 import JuanJose.ForoHub.dto.Topic.TopicDetailsDTO;
 import JuanJose.ForoHub.dto.User.*;
-import JuanJose.ForoHub.model.ForumUser;
-import JuanJose.ForoHub.model.Profile;
+import JuanJose.ForoHub.entities.ForumUser;
+import JuanJose.ForoHub.entities.Profile;
+import JuanJose.ForoHub.exception.ResourceNotFoundException;
 import JuanJose.ForoHub.repository.ProfileRepository;
 import JuanJose.ForoHub.repository.UserRepository;
 import JuanJose.ForoHub.service.Profile.ProfileValidator;
@@ -12,7 +13,10 @@ import JuanJose.ForoHub.utils.ConverterData;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
 
 
 @Service
@@ -34,22 +38,30 @@ public class UserService {
         this.topicService = topicService;
     }
 
-    // Create user
-    public DetailsResponseUserDTO createUser(CreateUserDTO data) {
-        userValidator.validateUserExistsByEmail(data.email());
-        profileValidator.validateExistsById(data.idProfile());
-        Profile profile = profileRepository.getReferenceById(data.idProfile());
-        ForumUser user = new ForumUser(null, data.name(), data.email(), data.password(), profile);
-        userRepository.save(user);
-        return new DetailsResponseUserDTO(user);
-    }
-
 
     // Get user by id
     public ResponseUserDTO getById(@Valid Long id) {
         userValidator.validateExistsById(id);
         ForumUser user = userRepository.getReferenceById(id);
         return new ResponseUserDTO(user);
+    }
+
+    // Create user
+    public DetailsResponseUserDTO createUser(@Valid CreateUserDTO data) {
+        userValidator.validateUserExistsByEmail(data.email());
+        Profile profile = null;
+        if(data.idProfile() != null){
+            profileValidator.validateExistsById(data.idProfile());
+            profile = profileRepository.getReferenceById(data.idProfile());
+        }else {
+            profile = profileRepository.findByName("USER")
+                    .orElseThrow(()-> new ResourceNotFoundException("Error creating user"));
+        }
+        String passwordEncode = new BCryptPasswordEncoder().encode(data.password());
+        ForumUser user = new ForumUser(null, data.name(), data.email(), passwordEncode, profile);
+        userRepository.save(user);
+        return new DetailsResponseUserDTO(user);
+
     }
 
 

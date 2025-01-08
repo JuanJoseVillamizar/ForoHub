@@ -1,6 +1,6 @@
 package JuanJose.ForoHub.repository;
 
-import JuanJose.ForoHub.model.Category;
+import JuanJose.ForoHub.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

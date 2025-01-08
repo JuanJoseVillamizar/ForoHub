@@ -4,7 +4,7 @@ import JuanJose.ForoHub.dto.Permission.CreatePermissionDTO;
 import JuanJose.ForoHub.dto.Permission.DetailsResponsePermissionDTO;
 import JuanJose.ForoHub.dto.Permission.ResponsePermissionDTO;
 import JuanJose.ForoHub.dto.Permission.MessageResponsePermissionDTO;
-import JuanJose.ForoHub.model.Permission;
+import JuanJose.ForoHub.entities.Permission;
 import JuanJose.ForoHub.repository.PermissionRepository;
 import JuanJose.ForoHub.utils.ConverterData;
 import jakarta.validation.Valid;

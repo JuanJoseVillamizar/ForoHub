@@ -1,11 +1,10 @@
 package JuanJose.ForoHub.dto.Topic;
 
 
-import JuanJose.ForoHub.dto.Category.CategoryDetailsDTO;
 import JuanJose.ForoHub.dto.Response.DTOResponse;
-import JuanJose.ForoHub.model.Topic;
-import JuanJose.ForoHub.model.TopicStatus;
-import JuanJose.ForoHub.model.TopicType;
+import JuanJose.ForoHub.entities.Topic;
+import JuanJose.ForoHub.entities.TopicStatus;
+import JuanJose.ForoHub.entities.TopicType;
 import JuanJose.ForoHub.utils.ConverterData;
 
 import java.time.LocalDateTime;

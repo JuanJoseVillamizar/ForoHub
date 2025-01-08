@@ -1,4 +1,4 @@
-package JuanJose.ForoHub.model;
+package JuanJose.ForoHub.entities;
 
 public enum TopicStatus {
     UNANSWERED("No respondido", "Unanswered"),

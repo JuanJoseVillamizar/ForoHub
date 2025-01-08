@@ -1,7 +1,7 @@
 package JuanJose.ForoHub.repository;
 
-import JuanJose.ForoHub.model.Response;
-import JuanJose.ForoHub.model.TopicStatus;
+import JuanJose.ForoHub.entities.Response;
+import JuanJose.ForoHub.entities.TopicStatus;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

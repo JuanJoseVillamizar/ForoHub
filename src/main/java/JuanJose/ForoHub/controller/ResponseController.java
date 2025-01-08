@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.nio.file.AccessDeniedException;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/responses")
@@ -47,8 +49,8 @@ public class ResponseController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<MessageResponseDTO> updateResponse(
-            @Valid @PathVariable Long id, @Valid @RequestBody UpdateResponse data) {
-        MessageResponseDTO responseDTO = responseService.updateResponse(id, data);
+            @Valid @PathVariable Long id, @Valid @RequestBody UpdateResponse data, Principal principal) throws AccessDeniedException {
+        MessageResponseDTO responseDTO = responseService.updateResponse(id, data, principal);
         return ResponseEntity.ok(responseDTO);
     }
 

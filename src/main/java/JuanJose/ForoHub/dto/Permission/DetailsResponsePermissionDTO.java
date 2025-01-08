@@ -1,6 +1,6 @@
 package JuanJose.ForoHub.dto.Permission;
 
-import JuanJose.ForoHub.model.Permission;
+import JuanJose.ForoHub.entities.Permission;
 
 public record DetailsResponsePermissionDTO(
         Long id,

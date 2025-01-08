@@ -2,7 +2,10 @@ package JuanJose.ForoHub.controller;
 
 
 import JuanJose.ForoHub.dto.Topic.TopicDetailsDTO;
-import JuanJose.ForoHub.dto.User.*;
+import JuanJose.ForoHub.dto.User.MessageResponseUserDTO;
+import JuanJose.ForoHub.dto.User.ResponseUserDTO;
+import JuanJose.ForoHub.dto.User.UpdateUserDTO;
+import JuanJose.ForoHub.dto.User.UserProfilePermissionDTO;
 import JuanJose.ForoHub.service.User.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -14,9 +17,8 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -28,14 +30,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    // Create user
-    @PostMapping
-    public ResponseEntity<DetailsResponseUserDTO> createUser(@RequestBody @Valid CreateUserDTO data,
-                                                             UriComponentsBuilder uriComponentsBuilder) {
-        DetailsResponseUserDTO user = userService.createUser(data);
-        URI url = uriComponentsBuilder.path("/api/user/{id}").buildAndExpand(user.id()).toUri();
-        return ResponseEntity.created(url).body(user);
-    }
 
     // Get user by id
     @GetMapping("/{id}")
@@ -45,9 +39,10 @@ public class UserController {
     }
 
     // Update user
-    @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<MessageResponseUserDTO> updateUser(@Valid @PathVariable Long id, @RequestBody UpdateUserDTO data) {
+    @PutMapping("/{id}")
+    public ResponseEntity<MessageResponseUserDTO> updateUser(@Valid @PathVariable Long id,
+                                                             @RequestBody UpdateUserDTO data) {
         MessageResponseUserDTO response = userService.updateUser(id, data);
         return ResponseEntity.ok(response);
     }

@@ -1,8 +1,6 @@
 package JuanJose.ForoHub.dto.Response;
 
-import JuanJose.ForoHub.model.ForumUser;
-import JuanJose.ForoHub.model.Response;
-import JuanJose.ForoHub.model.Topic;
+import JuanJose.ForoHub.entities.Response;
 
 import java.time.LocalDateTime;
 

@@ -1,6 +1,6 @@
 package JuanJose.ForoHub.dto.Category;
 
-import JuanJose.ForoHub.model.Category;
+import JuanJose.ForoHub.entities.Category;
 
 public record ResponseCategoryDTO(
         Long id,

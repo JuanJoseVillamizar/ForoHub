@@ -1,10 +1,10 @@
 package JuanJose.ForoHub.service.Response;
 
 import JuanJose.ForoHub.dto.Response.*;
-import JuanJose.ForoHub.model.ForumUser;
-import JuanJose.ForoHub.model.Response;
-import JuanJose.ForoHub.model.Topic;
-import JuanJose.ForoHub.model.TopicStatus;
+import JuanJose.ForoHub.entities.ForumUser;
+import JuanJose.ForoHub.entities.Response;
+import JuanJose.ForoHub.entities.Topic;
+import JuanJose.ForoHub.entities.TopicStatus;
 import JuanJose.ForoHub.repository.ResponseRepository;
 import JuanJose.ForoHub.repository.TopicRepository;
 import JuanJose.ForoHub.repository.UserRepository;
@@ -16,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 @Service
@@ -59,9 +61,15 @@ public class ResponseService {
     }
 
     //Update response
-    public MessageResponseDTO updateResponse(@Valid Long id, @Valid UpdateResponse data) {
+    public MessageResponseDTO updateResponse(@Valid Long id, @Valid UpdateResponse data, Principal principal) throws AccessDeniedException {
         responseValidator.validateExistsById(id);
         Response response = responseRepository.getReferenceById(id);
+        ForumUser authenticatedUser = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+        if (!authenticatedUser.getId().equals(response.getAuthor().getId())
+                && !authenticatedUser.getProfile().getPermissions().contains("EDIT_ANY_COMMENT")) {
+            throw new AccessDeniedException("You do not have permission to edit this response.");
+        }
         response.updateResponse(data);
         DetailsResponseDTO responseDTO = new DetailsResponseDTO(response);
         return new MessageResponseDTO("Response updated successfully", responseDTO);

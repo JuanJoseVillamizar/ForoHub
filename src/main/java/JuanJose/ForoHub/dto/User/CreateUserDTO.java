@@ -13,7 +13,6 @@ public record CreateUserDTO(
         String email,
         @NotBlank
         String password,
-        @NotNull
         Long idProfile
         ) {
 }

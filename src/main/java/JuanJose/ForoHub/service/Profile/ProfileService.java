@@ -5,7 +5,7 @@ import JuanJose.ForoHub.dto.Profile.CreateProfileDTO;
 import JuanJose.ForoHub.dto.Profile.DetailsResponseProfileDTO;
 import JuanJose.ForoHub.dto.Profile.ResponseProfileDTO;
 import JuanJose.ForoHub.dto.Profile.UpdateProfileDTO;
-import JuanJose.ForoHub.model.Profile;
+import JuanJose.ForoHub.entities.Profile;
 import JuanJose.ForoHub.repository.ProfileRepository;
 import JuanJose.ForoHub.service.Permission.PermissionService;
 import JuanJose.ForoHub.utils.ConverterData;

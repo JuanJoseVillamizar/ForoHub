@@ -1,18 +1,15 @@
-package JuanJose.ForoHub.model;
+package JuanJose.ForoHub.entities;
 
-import JuanJose.ForoHub.dto.Course.CreateCourseDTO;
 import JuanJose.ForoHub.dto.Course.UpdateCourseDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name="course")
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")

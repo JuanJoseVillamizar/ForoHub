@@ -1,6 +1,6 @@
 package JuanJose.ForoHub.dto.SubCategory;
 
-import JuanJose.ForoHub.model.SubCategory;
+import JuanJose.ForoHub.entities.SubCategory;
 
 public record DetailsResponseSubCategoryDTO(
         Long id,

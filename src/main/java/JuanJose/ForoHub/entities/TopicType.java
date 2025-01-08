@@ -1,6 +1,4 @@
-package JuanJose.ForoHub.model;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
+package JuanJose.ForoHub.entities;
 
 public enum TopicType {
     QUESTION("Duda", "Question"),

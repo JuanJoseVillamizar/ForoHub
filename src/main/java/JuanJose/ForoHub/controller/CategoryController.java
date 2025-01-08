@@ -3,9 +3,9 @@ package JuanJose.ForoHub.controller;
 import JuanJose.ForoHub.dto.Category.*;
 import JuanJose.ForoHub.dto.SubCategory.ResponseSubCategoryDTO;
 import JuanJose.ForoHub.dto.Topic.TopicDetailsDTO;
-import JuanJose.ForoHub.model.Category;
-import JuanJose.ForoHub.model.TopicStatus;
-import JuanJose.ForoHub.model.TopicType;
+import JuanJose.ForoHub.entities.Category;
+import JuanJose.ForoHub.entities.TopicStatus;
+import JuanJose.ForoHub.entities.TopicType;
 import JuanJose.ForoHub.service.Category.CategoryService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -104,6 +104,7 @@ public class CategoryController {
     }
 
     // Get categories details
+    @GetMapping("/{id}/details")
     public ResponseEntity<DetailsCategoriesDTO> getCategoriesDetails(@PathVariable Long id) {
         DetailsCategoriesDTO details = categoryService.getDetailsCategory(id);
         return ResponseEntity.ok(details);

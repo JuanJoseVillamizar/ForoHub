@@ -2,7 +2,7 @@ package JuanJose.ForoHub.service.Course;
 
 import JuanJose.ForoHub.service.Validations.AbstractEntityValidator;
 import JuanJose.ForoHub.exception.ResourceAlreadyExistException;
-import JuanJose.ForoHub.model.Course;
+import JuanJose.ForoHub.entities.Course;
 import JuanJose.ForoHub.repository.CourseRepository;
 import org.springframework.stereotype.Component;
 

@@ -10,7 +10,7 @@ import JuanJose.ForoHub.dto.SubCategory.ResponseSubCategoryDTO;
 import JuanJose.ForoHub.dto.Topic.TopicDetailsDTO;
 import JuanJose.ForoHub.dto.User.ResponseUserDTO;
 import JuanJose.ForoHub.dto.User.UserDTO;
-import JuanJose.ForoHub.model.*;
+import JuanJose.ForoHub.entities.*;
 
 public class ConverterData {
     public static ResponseSubCategoryDTO convertToDTOSub (SubCategory subCategory){
@@ -52,13 +52,23 @@ public class ConverterData {
                 topic.getCreationDate(),
                 new UserDTO(topic.getAuthor().getId(), topic.getAuthor().getName()),
                 topic.getResponses().size(),
-                new CategoryDetailsDTO(
+                (topic.getCourse() != null &&
+                        topic.getCourse().getSubCategory() != null &&
+                        topic.getCourse().getSubCategory().getCategory() != null)
+                        ? new CategoryDetailsDTO(
                         topic.getCourse().getSubCategory().getCategory().getId(),
                         topic.getCourse().getSubCategory().getCategory().getName(),
                         topic.getCourse().getSubCategory().getId(),
                         topic.getCourse().getSubCategory().getName(),
                         topic.getCourse().getId(),
-                        topic.getCourse().getName()
+                        topic.getCourse().getName() != null ? topic.getCourse().getName() : "off topic")
+                        : new CategoryDetailsDTO(
+                        null, // Puedes usar null o un valor por defecto
+                        "off topic", // Por defecto si no hay curso
+                        null,
+                        "off topic", // Por defecto si no hay subcategoría
+                        null,
+                        "off topic" // Por defecto si no hay curso
                 )
         );
     }

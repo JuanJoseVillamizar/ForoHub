@@ -1,16 +1,12 @@
 package JuanJose.ForoHub.repository;
 
-import JuanJose.ForoHub.model.Topic;
-import JuanJose.ForoHub.model.TopicStatus;
-import JuanJose.ForoHub.model.TopicType;
-import jakarta.validation.Valid;
+import JuanJose.ForoHub.entities.Topic;
+import JuanJose.ForoHub.entities.TopicStatus;
+import JuanJose.ForoHub.entities.TopicType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface TopicRepository extends JpaRepository<Topic,Long> {
     boolean existsByTitle(String title);

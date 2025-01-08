@@ -2,8 +2,8 @@ package JuanJose.ForoHub.controller;
 
 import JuanJose.ForoHub.dto.Course.*;
 import JuanJose.ForoHub.dto.Topic.TopicDetailsDTO;
-import JuanJose.ForoHub.model.TopicStatus;
-import JuanJose.ForoHub.model.TopicType;
+import JuanJose.ForoHub.entities.TopicStatus;
+import JuanJose.ForoHub.entities.TopicType;
 import JuanJose.ForoHub.service.Course.CourseService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

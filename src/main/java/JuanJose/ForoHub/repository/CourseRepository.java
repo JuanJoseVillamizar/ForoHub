@@ -1,6 +1,6 @@
 package JuanJose.ForoHub.repository;
 
-import JuanJose.ForoHub.model.Course;
+import JuanJose.ForoHub.entities.Course;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +13,5 @@ public interface CourseRepository extends JpaRepository<Course,Long> {
             SELECT c from Course c WHERE c.subCategory.id = :id
             """)
     Page<Course> findCoursesBySubCategoryId(Long id, Pageable pageable);
+
 }

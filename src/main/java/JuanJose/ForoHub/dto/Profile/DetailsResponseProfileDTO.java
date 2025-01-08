@@ -1,6 +1,6 @@
 package JuanJose.ForoHub.dto.Profile;
 
-import JuanJose.ForoHub.model.Profile;
+import JuanJose.ForoHub.entities.Profile;
 
 public record DetailsResponseProfileDTO (
         Long id,

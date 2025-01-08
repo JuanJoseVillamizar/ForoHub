@@ -1,17 +1,15 @@
-package JuanJose.ForoHub.model;
+package JuanJose.ForoHub.entities;
 
 import JuanJose.ForoHub.dto.Response.UpdateResponse;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name="response")
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")

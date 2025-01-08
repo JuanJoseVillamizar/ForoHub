@@ -2,8 +2,8 @@ package JuanJose.ForoHub.controller;
 
 import JuanJose.ForoHub.dto.Response.ResponseDTO;
 import JuanJose.ForoHub.dto.Topic.*;
-import JuanJose.ForoHub.model.TopicStatus;
-import JuanJose.ForoHub.model.TopicType;
+import JuanJose.ForoHub.entities.TopicStatus;
+import JuanJose.ForoHub.entities.TopicType;
 import JuanJose.ForoHub.service.Topic.TopicService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.nio.file.AccessDeniedException;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/topics")
@@ -50,8 +52,8 @@ public class TopicController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<ResponseMessageTopicDTO> updateTopic(
-            @Valid @PathVariable Long id, @Valid @RequestBody UpdateTopicDTO data) {
-        ResponseMessageTopicDTO response = topicService.updateTopic(id, data);
+            @Valid @PathVariable Long id, @Valid @RequestBody UpdateTopicDTO data, Principal principal) throws AccessDeniedException {
+        ResponseMessageTopicDTO response = topicService.updateTopic(id, data, principal);
         return ResponseEntity.ok(response);
     }
 
@@ -65,6 +67,7 @@ public class TopicController {
 
     //Get all topics
     @GetMapping
+    //@PreAuthorize("hasAuthority('VIEW_TOPIC')")
     public ResponseEntity<PagedModel<EntityModel<TopicDetailsDTO>>> getAllTopics(
             @PageableDefault(sort = "creationDate")
             Pageable pageable,

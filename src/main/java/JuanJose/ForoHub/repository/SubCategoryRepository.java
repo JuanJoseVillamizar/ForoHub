@@ -1,6 +1,6 @@
 package JuanJose.ForoHub.repository;
 
-import JuanJose.ForoHub.model.SubCategory;
+import JuanJose.ForoHub.entities.SubCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

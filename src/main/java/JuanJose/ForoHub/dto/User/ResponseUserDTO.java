@@ -1,7 +1,6 @@
 package JuanJose.ForoHub.dto.User;
 
-import JuanJose.ForoHub.model.ForumUser;
-import JuanJose.ForoHub.model.Profile;
+import JuanJose.ForoHub.entities.ForumUser;
 
 public record ResponseUserDTO(
         Long id,

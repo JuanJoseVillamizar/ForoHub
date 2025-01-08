@@ -1,6 +1,6 @@
 package JuanJose.ForoHub.dto.ProfilePermission;
 
-import JuanJose.ForoHub.model.ProfilePermission;
+import JuanJose.ForoHub.entities.ProfilePermission;
 
 public record ResponseProfilePermissionDTO(
         String profile,

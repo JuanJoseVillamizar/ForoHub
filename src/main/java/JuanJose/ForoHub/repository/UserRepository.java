@@ -1,11 +1,12 @@
 package JuanJose.ForoHub.repository;
 
-import JuanJose.ForoHub.dto.User.UserProfilePermissionDTO;
-import JuanJose.ForoHub.model.ForumUser;
+import JuanJose.ForoHub.entities.ForumUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<ForumUser,Long> {
     boolean existsByEmail(String email);
@@ -18,4 +19,6 @@ public interface UserRepository extends JpaRepository<ForumUser,Long> {
             WHERE u.id = :id
             """)
     ForumUser findUserProfileAndPermissions(Long id);
+
+    Optional<ForumUser> findByEmail(String email);
 }

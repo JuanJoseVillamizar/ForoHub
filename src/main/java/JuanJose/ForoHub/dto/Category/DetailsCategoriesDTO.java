@@ -4,7 +4,7 @@ import JuanJose.ForoHub.dto.Course.CourseDTO;
 import JuanJose.ForoHub.dto.Response.DTOResponse;
 import JuanJose.ForoHub.dto.SubCategory.SubCategoryDTO;
 import JuanJose.ForoHub.dto.Topic.TopicDTO;
-import JuanJose.ForoHub.model.Category;
+import JuanJose.ForoHub.entities.Category;
 
 import java.util.List;
 
