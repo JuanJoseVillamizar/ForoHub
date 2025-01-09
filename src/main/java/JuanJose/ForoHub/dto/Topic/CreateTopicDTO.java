@@ -17,8 +17,6 @@ public record CreateTopicDTO(
         @NotBlank
         String message,
         TopicStatus status,
-        @NotNull
-        Long idUser,
         String idCourse
 ) {
 }

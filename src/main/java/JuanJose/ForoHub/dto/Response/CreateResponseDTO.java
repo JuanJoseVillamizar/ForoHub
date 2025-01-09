@@ -7,8 +7,6 @@ public record CreateResponseDTO(
         @NotBlank
         String message,
         @NotNull
-        Long topicId,
-        @NotNull
-        Long userId
+        Long topicId
 ) {
 }

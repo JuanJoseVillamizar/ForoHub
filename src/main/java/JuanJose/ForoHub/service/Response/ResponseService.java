@@ -9,11 +9,14 @@ import JuanJose.ForoHub.repository.ResponseRepository;
 import JuanJose.ForoHub.repository.TopicRepository;
 import JuanJose.ForoHub.repository.UserRepository;
 import JuanJose.ForoHub.service.Topic.TopicValidator;
+import JuanJose.ForoHub.service.User.CustomUserDetails;
 import JuanJose.ForoHub.service.User.UserValidator;
 import JuanJose.ForoHub.utils.ConverterData;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
@@ -43,11 +46,13 @@ public class ResponseService {
 
     //Create response
     public DetailsResponseDTO createResponse(CreateResponseDTO data) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        Long userId = userDetails.getId();
         topicValidator.validateExistsById(data.topicId());
-        userValidator.validateExistsById(data.userId());
         Topic topic = topicRepository.getReferenceById(data.topicId());
         topic.answeredStatus();
-        ForumUser user = userRepository.getReferenceById(data.userId());
+        ForumUser user = userRepository.getReferenceById(userId);
         Response response = new Response(null, data.message(), LocalDateTime.now(), false, topic, user);
         responseRepository.save(response);
         return new DetailsResponseDTO(response);
@@ -63,13 +68,19 @@ public class ResponseService {
     //Update response
     public MessageResponseDTO updateResponse(@Valid Long id, @Valid UpdateResponse data, Principal principal) throws AccessDeniedException {
         responseValidator.validateExistsById(id);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        Long authenticatedUserId  = userDetails.getId();
+        boolean hasEditPermission = userDetails.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("EDIT_ANY_COMMENT"));
+
         Response response = responseRepository.getReferenceById(id);
-        ForumUser authenticatedUser = userRepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
-        if (!authenticatedUser.getId().equals(response.getAuthor().getId())
-                && !authenticatedUser.getProfile().getPermissions().contains("EDIT_ANY_COMMENT")) {
+
+        if (!response.getAuthor().getId().equals(authenticatedUserId) && !hasEditPermission){
             throw new AccessDeniedException("You do not have permission to edit this response.");
         }
+
         response.updateResponse(data);
         DetailsResponseDTO responseDTO = new DetailsResponseDTO(response);
         return new MessageResponseDTO("Response updated successfully", responseDTO);

@@ -37,7 +37,9 @@ public class TopicController {
                                                                UriComponentsBuilder uriComponentsBuilder) {
 
         ResponseMessageTopicDTO response = topicService.createTopic(data);
-        URI url = uriComponentsBuilder.path("/api/topic/{id}").buildAndExpand(response.topic().id()).toUri();
+        URI url = uriComponentsBuilder.path("/api/topic/{id}")
+                .buildAndExpand(response.topic().id())
+                .toUri();
         return ResponseEntity.created(url).body(response);
     }
 

@@ -1,5 +1,6 @@
 package JuanJose.ForoHub.utils;
 
+import JuanJose.ForoHub.service.User.CustomUserDetails;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -22,18 +23,23 @@ public class JwtUtils {
     private String privateKey;
 
     @Value("{AUTHJWT-BACKEND}")
-    private String userGenerator;
+    private String issuer;
 
     public String createToken(Authentication authentication) {
         Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
-        String username = authentication.getPrincipal().toString();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        String username = userDetails.getUsername();
+        Long userId = userDetails.getId();
         String authorities = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+
         String CreateToken = JWT.create()
-                .withIssuer(this.userGenerator)
+                .withIssuer(this.issuer)
                 .withSubject(username)
+                .withClaim("userId", userId)
                 .withClaim("authorities", authorities)
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 2700000))
@@ -47,7 +53,7 @@ public class JwtUtils {
         try {
             Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
             JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer(this.userGenerator)
+                    .withIssuer(this.issuer)
                     .build();
             DecodedJWT decodedJWT = verifier.verify(token);
             return decodedJWT;
@@ -57,7 +63,7 @@ public class JwtUtils {
     }
 
     public String extractUserName(DecodedJWT decodedJWT){
-        return decodedJWT.getSubject().toString();
+        return decodedJWT.getSubject();
     }
 
     public Claim getSpecificClaim(DecodedJWT decodedJWT, String claimName){

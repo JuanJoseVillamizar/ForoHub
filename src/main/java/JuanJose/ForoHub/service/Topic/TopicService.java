@@ -8,16 +8,20 @@ import JuanJose.ForoHub.repository.TopicRepository;
 import JuanJose.ForoHub.repository.UserRepository;
 import JuanJose.ForoHub.service.Course.CourseValidator;
 import JuanJose.ForoHub.service.Response.ResponseService;
+import JuanJose.ForoHub.service.User.CustomUserDetails;
 import JuanJose.ForoHub.service.User.UserValidator;
 import JuanJose.ForoHub.utils.ConverterData;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Service
 public class TopicService {
@@ -52,15 +56,19 @@ public class TopicService {
 
     //Create topic
     public ResponseMessageTopicDTO createTopic(CreateTopicDTO data) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        Long userId = userDetails.getId();
+
         topicValidator.validationTopicExistsByTitle(data.title());
         topicValidator.validationTopicExistsByMessage(data.message());
-        userValidator.validateExistsById(data.idUser());
+        userValidator.validateExistsById(userId);
         Course course = null;
         if (data.idCourse() != null) {
             courseValidator.validateExistsById(Long.valueOf(data.idCourse()));
             course = courseRepository.getReferenceById(Long.valueOf(data.idCourse()));
         }
-        ForumUser user = userRepository.getReferenceById(data.idUser());
+        ForumUser user = userRepository.getReferenceById(userId);
         Topic topic = createNewTopic(data, user, course);
         topicRepository.save(topic);
         ResponseTopicDTO responseTopicDTO = new ResponseTopicDTO(topic);
@@ -77,13 +85,17 @@ public class TopicService {
     //update topic
     public ResponseMessageTopicDTO updateTopic(@Valid Long id, @Valid UpdateTopicDTO data, Principal principal) throws AccessDeniedException {
         topicValidator.validateExistsById(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        Long authenticatedUserId  = userDetails.getId();
+        boolean hasEditPermission = userDetails.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("EDIT_ANY_TOPIC"));
+
         Topic topic = topicRepository.getReferenceById(id);
-        ForumUser authenticatedUser = userRepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
-        if (!authenticatedUser.getId().equals(topic.getAuthor().getId())
-                && !authenticatedUser.getProfile().getPermissions().contains("EDIT_ANY_TOPIC")) {
+        if (!topic.getAuthor().getId().equals(authenticatedUserId) && !hasEditPermission){
             throw new AccessDeniedException("You do not have permission to edit this topic.");
         }
+
         topic.updateTopic(data);
         ResponseTopicDTO response = new ResponseTopicDTO(topic);
         return new ResponseMessageTopicDTO("Topic updated successfully", response);

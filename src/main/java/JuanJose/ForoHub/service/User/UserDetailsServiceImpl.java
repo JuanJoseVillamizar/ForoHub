@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -46,7 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         authorityList.add(new SimpleGrantedAuthority(role));
         user.getProfile().getPermissions().forEach(permission ->
                 authorityList.add(new SimpleGrantedAuthority(permission.getName())));
-        return new User(user.getEmail(), user.getPassword(), authorityList);
+        return new CustomUserDetails(user.getId(),user.getEmail(), user.getPassword(), authorityList);
     }
 
     public AuthResponse loginUser(AuthLoginRequest userRequest) {
@@ -63,14 +62,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private Authentication authenticate(String username, String password) {
-        UserDetails userDetails = this.loadUserByUsername(username);
+        CustomUserDetails userDetails = (CustomUserDetails) this.loadUserByUsername(username);
 
         if(userDetails == null){
             throw  new BadCredentialsException("Invalid username or password");
         }
+
         if (!passwordEncoder.matches(password, userDetails.getPassword())){
+            System.out.println(password + " otra: " + userDetails.getPassword());
             throw  new BadCredentialsException("Invalid username or password");
         }
-        return new UsernamePasswordAuthenticationToken(username,userDetails.getPassword(), userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
     }
 }

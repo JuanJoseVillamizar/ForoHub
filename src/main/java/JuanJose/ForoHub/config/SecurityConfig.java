@@ -51,6 +51,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
                     //public endpoints
+                    http.requestMatchers("/swagger-ui/**").permitAll();
+                    http.requestMatchers("/swagger-ui.html").permitAll();
+                    http.requestMatchers("/v3/api-docs/**").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll();
                     //private endpoints
                     http.requestMatchers(HttpMethod.GET, "/api/categories/**").authenticated();
@@ -65,7 +68,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/api/categories/**").hasAuthority("CREATE_CATEGORY");
                     http.requestMatchers(HttpMethod.POST, "/api/subcategories/**").hasAuthority("CREATE_SUB_CATEGORY");
                     http.requestMatchers(HttpMethod.POST, "/api/courses/**").hasAuthority("CREATE_COURSE");
-                    http.requestMatchers(HttpMethod.POST, "/api/topics/**").authenticated();
+                    http.requestMatchers(HttpMethod.POST, "/api/topics/**").hasAuthority("CREATE_TOPIC");
                     http.requestMatchers(HttpMethod.POST, "/api/responses/**").authenticated();
                     http.requestMatchers(HttpMethod.PUT, "/api/categories/**").hasAuthority("EDIT_CATEGORY");
                     http.requestMatchers(HttpMethod.PUT, "/api/subcategories/**").hasAuthority("EDIT_SUBCATEGORY");

@@ -7,6 +7,7 @@ import JuanJose.ForoHub.entities.Category;
 import JuanJose.ForoHub.entities.TopicStatus;
 import JuanJose.ForoHub.entities.TopicType;
 import JuanJose.ForoHub.service.Category.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/categories")
+@Tag(name="Category", description = "Controller for Categories")
 public class CategoryController {
 
     private final CategoryService categoryService;

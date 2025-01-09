@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.toList());
         log.error("Validation failed: {}", errors);
         ErrorResponse errorResponse = new ErrorResponse(
-                "Validation failed",
+                "Invalid input data",
                 HttpStatus.BAD_REQUEST.value(),
                 errors
         );
